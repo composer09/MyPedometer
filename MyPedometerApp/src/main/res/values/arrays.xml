@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="nav_items">
+        <item>MainFragment</item>
+        <item>Location</item>
+        <item>History</item>
+        <item>Config</item>
+    </string-array>
+
+    <string-array name="sensitivity_item">
+        <item>가장 높음</item>
+        <item>매우 높음</item>
+        <item>높음</item>
+        <item>약간 높음</item>
+        <item>중간</item>
+        <item>약간 낮음</item>
+        <item>낮음</item>
+        <item>매우 낮음</item>
+        <item>가장 낮음</item>
+    </string-array>
+</resources>
