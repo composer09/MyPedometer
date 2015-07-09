@@ -14,6 +14,7 @@ import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,9 @@ import android.widget.TextView;
 import kr.co.composer.mylocation.aidl.ICountService;
 import kr.co.composer.mylocation.aidl.ICountServiceCallback;
 import kr.co.composer.pedometer.R;
+import kr.co.composer.pedometer.bo.pedometer.PedoHistoryBO;
+import kr.co.composer.pedometer.bo.pedometer.Pedometer;
+import kr.co.composer.pedometer.format.TimeFormatter;
 import kr.co.composer.pedometer.location.LocationManagerInitializer;
 import kr.co.composer.pedometer.service.StepService;
 import kr.co.composer.pedometer.sharedpref.ConfigPreferenceManager;
@@ -46,11 +50,16 @@ public class MainFragment extends Fragment {
 	private FragmentActivity activity = null;
 	private int currentCount;
 	private LocationManager locationManager = null;
+	private Pedometer pedometer;
+	private PedoHistoryBO pedoHistoryBO;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		configPref = ConfigPreferenceManager.getInstance();
+		pedometer = new Pedometer();
+		pedoHistoryBO = new PedoHistoryBO();
 		powerManager = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
 		wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MainFragment");
 		locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -132,6 +141,11 @@ public class MainFragment extends Fragment {
 		getActivity().stopService(stepServiceIntent);
 		text.setText(R.string.count_text);
 		button.setText(R.string.play_button);
+		pedometer.setPedometerCount(currentCount);
+		pedometer.setTime(DateFormat.format(
+				TimeFormatter.START_DATE_FORMAT,
+				System.currentTimeMillis()).toString());
+		pedoHistoryBO.insert(pedometer);
 	}
 
 	private ICountServiceCallback.Stub mCallback = new ICountServiceCallback.Stub() {

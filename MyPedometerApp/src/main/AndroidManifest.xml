@@ -17,6 +17,11 @@
             </intent-filter>
         </activity>
 
+        <provider
+            android:name=".dao.pedometer.PedoContentProvider"
+            android:authorities="@string/url_content_authority"
+            android:exported="false"></provider>
+
         <receiver android:name="kr.co.composer.pedometer.broadcast.GpsEventBroadcast">
             <intent-filter>
                 <action android:name="android.location.PROVIDERS_CHANGED" />
