@@ -3,13 +3,14 @@ package kr.co.composer.pedometer.dao.pedometer;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.util.Log;
 
 /**
  * Created by composer on 2015-07-09.
  */
 public class PedoSQLiteOpenHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_FILE = "myPedometer.db";
+    public static final String DATABASE_FILE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/myPedometer/pedometer.db";
     public static final int DATABASE_VERSION = 5;
     public static final String TABLE_NAME = "pedometer";
     public static final String ROW_ID = "rowId";
@@ -28,7 +29,7 @@ public class PedoSQLiteOpenHelper extends SQLiteOpenHelper {
                 + PEDOMETER_COUNT + " integer, "
                 + TIME + " varchar "
                 +");";
-        Log.i("µ¥ÀÌÅÍº£ÀÌ½º Å×ÀÌºí»ı¼º", sql);
+        Log.i("ë°ì´í„°ë² ì´ìŠ¤ í…Œì´ë¸”ìƒì„±", sql);
         db.execSQL(sql);
     }
 

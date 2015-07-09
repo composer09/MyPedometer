@@ -33,19 +33,16 @@ public class HistoryAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-
         return arraySrc.size();
     }
 
     @Override
     public Pedometer getItem(int position) {
-
         return arraySrc.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-
         return position;
     }
 
@@ -55,10 +52,10 @@ public class HistoryAdapter extends BaseAdapter {
             convertView = inflater.inflate(layout, parent, false);
         }
         TextView textWalk = (TextView) convertView.findViewById(R.id.pedometer_walk);
-        textWalk.setText(arraySrc.get(position).getPedometerCount());
+        textWalk.setText(String.valueOf(arraySrc.get(position).getPedometerCount()));
 
         TextView textTime = (TextView) convertView.findViewById(R.id.pedometer_time);
         textTime.setText(arraySrc.get(position).getTime());
-        return null;
+        return convertView;
     }
 }

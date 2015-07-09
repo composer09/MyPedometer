@@ -74,33 +74,31 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 //		fragment = fManager.findFragmentById(R.id.container);
         FragmentTransaction fragtrans = getSupportFragmentManager().beginTransaction();
         if (position == 0) {
-            if(isServiceRunning(SERVICE_NAME)){
+            if (isServiceRunning(SERVICE_NAME)) {
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
-            }else {
+            } else {
                 mTitle = getString(R.string.main_fragment);
                 restoreActionBar();
                 fragtrans.replace(R.id.container, new MainFragment(), MAIN_FRAGMENT);
             }
         } else if (position == 1) {
-            fragtrans.replace(R.id.container, new LocationFragment(), "googleMap");
-        }else if(position == 2){
-            mTitle = getString(R.string.history_fragment);
-            restoreActionBar();
-            fragtrans.replace(R.id.container, new HistoryFragment(), "HISTORY_FRAGMENT");
-        }
-        else if (position == 3) {
-            if (isServiceRunning(SERVICE_NAME)){
-                new AlertDialog.Builder(this)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("확인")
-                        .setMessage("만보기가 실행중입니다.")
-                        .setNeutralButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        }).create().show();
-            }else {
+            if (isServiceRunning(SERVICE_NAME)) {
+                runningAlert();
+            } else {
+                fragtrans.replace(R.id.container, new LocationFragment(), "googleMap");
+            }
+        } else if (position == 2) {
+            if (isServiceRunning(SERVICE_NAME)) {
+                runningAlert();
+            } else {
+                mTitle = getString(R.string.history_fragment);
+                restoreActionBar();
+                fragtrans.replace(R.id.container, new HistoryFragment(), "HISTORY_FRAGMENT");
+            }
+        } else if (position == 3) {
+            if (isServiceRunning(SERVICE_NAME)) {
+                runningAlert();
+            } else {
                 mTitle = getString(R.string.config_fragment);
                 restoreActionBar();
                 fragtrans.replace(R.id.container, new ConfigFragment());
@@ -246,7 +244,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     }
 
 
-    public Boolean isServiceRunning(String serviceName) {
+    private Boolean isServiceRunning(String serviceName) {
         ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         for (RunningServiceInfo runningServiceInfo : activityManager.getRunningServices(Integer.MAX_VALUE)) {
             Log.i("serviceName", runningServiceInfo.service.getClassName());
@@ -257,7 +255,20 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         return false;
     }
 
-    public void restoreActionBar() {
+    private void runningAlert() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("확인")
+                .setMessage("만보기가 실행중입니다.")
+                .setNeutralButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }).create().show();
+    }
+
+    private void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayHomeAsUpEnabled(true);
