@@ -1,4 +1,4 @@
-package kr.co.composer.pedometer.location;
+package kr.co.composer.pedometer.location.bo;
 
 import android.content.Context;
 import android.location.Location;

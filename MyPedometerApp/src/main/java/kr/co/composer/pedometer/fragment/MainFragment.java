@@ -22,17 +22,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import de.greenrobot.event.EventBus;
 import kr.co.composer.mylocation.aidl.ICountService;
 import kr.co.composer.mylocation.aidl.ICountServiceCallback;
 import kr.co.composer.pedometer.R;
 import kr.co.composer.pedometer.bo.pedometer.PedoHistoryBO;
 import kr.co.composer.pedometer.bo.pedometer.Pedometer;
 import kr.co.composer.pedometer.format.TimeFormatter;
-import kr.co.composer.pedometer.location.LocationManagerInitializer;
+import kr.co.composer.pedometer.location.bo.LocationManagerInitializer;
 import kr.co.composer.pedometer.service.StepService;
 import kr.co.composer.pedometer.sharedpref.ConfigPreferenceManager;
 import kr.co.composer.pedometer.util.GPSUtil;
 import kr.co.composer.pedometer.viewpager.adapter.MyPagerAdapter;
+import kr.co.composer.pedometer.viewpager.adapter.TextChangedEvent;
 
 public class MainFragment extends Fragment {
 	private ConfigPreferenceManager configPref = null;
@@ -99,6 +101,8 @@ public class MainFragment extends Fragment {
 			public void handleMessage(Message msg) {
 				currentCount = msg.arg1;
 				text.setText("Count = " + currentCount);
+				EventBus bus = EventBus.getDefault();
+				bus.post(new TextChangedEvent(String.valueOf(currentCount)));
 			}
 		};
 

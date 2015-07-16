@@ -19,6 +19,7 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
 	private FragmentManager fragManager;
 	private FragmentTransaction mCurTransaction = null;
     private Fragment mCurrentPrimaryItem = null;
+	private static final int PAGE_COUNT = 3;
 	
 	public MyPagerAdapter(FragmentManager fm, Context context) {
 		super(fm);
@@ -40,19 +41,22 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
 		}
 	}
 
-    public long getItemId(int position) {
+	@Override
+	public int getItemPosition(Object object) {
+		return super.getItemPosition(object);
+	}
+
+	public long getItemId(int position) {
         return position;
     }
     
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
-		return 3;
+		return PAGE_COUNT;
 	}
 
     @Override
     public void destroyItem(ViewGroup collection, int position, Object view) {
-//    	�������� ��ȣ��� �������� ���� ȣ��
         ((ViewPager)collection).removeView((View)view);
     }
 
