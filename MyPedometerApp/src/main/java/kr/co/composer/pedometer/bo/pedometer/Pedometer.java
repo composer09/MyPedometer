@@ -8,7 +8,9 @@ public class Pedometer {
 
     private int pedometerCount;
 
-    private String time;
+    private long time;
+
+    private String timeToString;
 
     //setter
     public void setRowId(int rowId) {
@@ -19,8 +21,12 @@ public class Pedometer {
         this.pedometerCount = pedometerCount;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
+    }
+
+    public void setTimeToString(String time){
+        this.timeToString = time;
     }
 
 
@@ -34,8 +40,11 @@ public class Pedometer {
         return pedometerCount;
     }
 
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
+    public String getTimeToString(){
+        return timeToString;
+    }
 }

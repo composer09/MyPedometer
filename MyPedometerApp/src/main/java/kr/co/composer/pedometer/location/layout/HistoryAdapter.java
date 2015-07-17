@@ -55,7 +55,7 @@ public class HistoryAdapter extends BaseAdapter {
         textWalk.setText(String.valueOf(arraySrc.get(position).getPedometerCount()));
 
         TextView textTime = (TextView) convertView.findViewById(R.id.pedometer_time);
-        textTime.setText(arraySrc.get(position).getTime());
+        textTime.setText(arraySrc.get(position).getTimeToString());
         return convertView;
     }
 }

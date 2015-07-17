@@ -14,11 +14,10 @@ public class PedoSQLiteOpenHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 5;
     public static final String TABLE_NAME = "pedometer";
     public static final String ROW_ID = "rowId";
-    public static final String PEDOMETER_COUNT = "pedometerCount";
     public static final String TIME = "date";
+    public static final String PEDOMETER_COUNT = "pedometerCount";
 
-    PedoSQLiteOpenHelper(Context context) {
-
+    public PedoSQLiteOpenHelper(Context context) {
         super(context, DATABASE_FILE, null, DATABASE_VERSION);
     }
 
@@ -26,8 +25,8 @@ public class PedoSQLiteOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String sql = "create table " + TABLE_NAME + " ("
                 + ROW_ID + " integer primary key autoincrement, "
-                + PEDOMETER_COUNT + " integer, "
-                + TIME + " varchar "
+                + TIME + " integer, "
+                + PEDOMETER_COUNT + " integer "
                 +");";
         Log.i("데이터베이스 테이블생성", sql);
         db.execSQL(sql);
