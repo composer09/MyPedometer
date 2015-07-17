@@ -3,7 +3,6 @@ package kr.co.composer.pedometer.location.layout;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +40,8 @@ public class HistoryFragment extends Fragment{
         listView = (ListView)view.findViewById(R.id.location_history_listview);
         pedometerList = pedoHistoryBO.getPedometerList();
         for(Pedometer pedometer : pedometerList){
-            Log.i("pedometer확인",""+pedometer.getPedometerCount());
-            Log.i("pedometer확인",""+pedometer.getTime());
+//            Log.i("pedometer확인",""+pedometer.getPedometerCount());
+//            Log.i("pedometer확인",""+pedometer.getTime());
             arrayList.add(pedometer);
             }
         HistoryAdapter historyAdapter = new HistoryAdapter(getActivity(), R.layout.location_history_item, arrayList);

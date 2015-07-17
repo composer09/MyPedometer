@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MyPedometer</string>
-    <string name="url_apiserver"><![CDATA[http://121.254.254.217:8080]]></string>
+    <string name="url_apiserver"><![CDATA[http://000.000.000.000:8080]]></string>
     <string name="url_content_authority">kr.co.composer.pedometer</string>
     <bool name="debug_mode">false</bool>
 </resources>

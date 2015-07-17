@@ -65,7 +65,7 @@ public class PedoDAO {
 
                 columnIndex = cursor.getColumnIndex(PedoSQLiteOpenHelper.TIME);
                 pedometer.setTimeToString(DateFormat.format(
-                        TimeFormatter.START_DATE_FORMAT,
+                        TimeFormatter.HISTORY_DATE_FORMAT,
                         cursor.getLong(columnIndex)).toString());
 
                 historyList.add(pedometer);
@@ -75,6 +75,7 @@ public class PedoDAO {
 
         return historyList;
     }
+
 
 
 }

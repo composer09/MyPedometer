@@ -31,6 +31,6 @@ public class Page1Activity extends Fragment {
 	}
 
 	public void onEvent(TextChangedEvent event) {
-		textView.setText(event.newText);
+		textView.setText(String.valueOf(event.newText));
 	}
 }
