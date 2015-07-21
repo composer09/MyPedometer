@@ -26,4 +26,8 @@ public class PedoHistoryBO {
     public List<Pedometer> getPedometerList(){
         return pedoDAO.getPedometerList();
     }
+
+    public int getWeekCount(){
+        return pedoDAO.getWeekCount();
+    }
 }

@@ -56,6 +56,8 @@ public class HistoryAdapter extends BaseAdapter {
 
         TextView textTime = (TextView) convertView.findViewById(R.id.pedometer_time);
         textTime.setText(arraySrc.get(position).getTimeToString());
+
+        convertView.setId(arraySrc.get(position).getRowId());
         return convertView;
     }
 }

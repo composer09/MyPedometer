@@ -30,9 +30,9 @@ import kr.co.composer.pedometer.location.bo.LocationManagerInitializer;
 import kr.co.composer.pedometer.service.StepService;
 import kr.co.composer.pedometer.sharedpref.ConfigPreferenceManager;
 import kr.co.composer.pedometer.util.GPSUtil;
-import kr.co.composer.pedometer.viewpager.adapter.MyPagerAdapter;
-import kr.co.composer.pedometer.viewpager.adapter.TextChangedEvent;
-import kr.co.composer.pedometer.viewpager.adapter.WeekChangedEvent;
+import kr.co.composer.pedometer.activity.viewpager.adapter.MyPagerAdapter;
+import kr.co.composer.pedometer.activity.viewpager.adapter.TextChangedEvent;
+import kr.co.composer.pedometer.activity.viewpager.adapter.WeekChangedEvent;
 
 public class MainFragment extends Fragment {
 	private ConfigPreferenceManager configPref = null;

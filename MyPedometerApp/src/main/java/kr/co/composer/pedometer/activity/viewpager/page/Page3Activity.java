@@ -1,4 +1,4 @@
-package kr.co.composer.pedometer.viewpager.page;
+package kr.co.composer.pedometer.activity.viewpager.page;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,23 +10,22 @@ import android.widget.TextView;
 
 import de.greenrobot.event.EventBus;
 import kr.co.composer.pedometer.R;
-import kr.co.composer.pedometer.viewpager.adapter.TextChangedEvent;
+import kr.co.composer.pedometer.activity.viewpager.adapter.TextChangedEvent;
 
-
-public class Page1Activity extends Fragment {
+public class Page3Activity extends Fragment {
 	TextView textView;
 	EventBus eventBus = EventBus.getDefault();
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		eventBus.register(this);
 	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		RelativeLayout layout = (RelativeLayout)inflater.inflate(R.layout.viewpager_page1, container, false);
-		textView = (TextView)layout.findViewById(R.id.text01);
+		RelativeLayout layout = (RelativeLayout)inflater.inflate(R.layout.viewpager_page3, container, false);
+		textView = (TextView)layout.findViewById(R.id.text03);
 		return layout;
 	}
 

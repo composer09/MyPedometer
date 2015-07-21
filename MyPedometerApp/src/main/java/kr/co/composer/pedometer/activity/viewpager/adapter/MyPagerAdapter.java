@@ -1,4 +1,4 @@
-package kr.co.composer.pedometer.viewpager.adapter;
+package kr.co.composer.pedometer.activity.viewpager.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import kr.co.composer.pedometer.viewpager.page.Page1Activity;
-import kr.co.composer.pedometer.viewpager.page.Page2Activity;
-import kr.co.composer.pedometer.viewpager.page.Page3Activity;
+import kr.co.composer.pedometer.activity.viewpager.page.Page1Activity;
+import kr.co.composer.pedometer.activity.viewpager.page.Page2Activity;
+import kr.co.composer.pedometer.activity.viewpager.page.Page3Activity;
 
 public class MyPagerAdapter extends FragmentStatePagerAdapter {
 	private LayoutInflater layoutInflater;

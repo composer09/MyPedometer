@@ -3,9 +3,15 @@ package kr.co.composer.pedometer.dao.pedometer;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.text.format.DateFormat;
+import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import kr.co.composer.pedometer.R;
@@ -13,6 +19,7 @@ import kr.co.composer.pedometer.application.PedometerApplication;
 import kr.co.composer.pedometer.bo.pedometer.Pedometer;
 import kr.co.composer.pedometer.dao.ContentProviderUri;
 import kr.co.composer.pedometer.format.TimeFormatter;
+import kr.co.composer.pedometer.log.LogTest;
 
 /**
  * Created by composer on 2015-07-09.
@@ -20,6 +27,8 @@ import kr.co.composer.pedometer.format.TimeFormatter;
 public class PedoDAO {
 
     ContentResolver contentResolver;
+    PedoSQLiteOpenHelper helper;
+    SQLiteDatabase db;
 
     public void init() {
         this.contentResolver = PedometerApplication.contextWrapper.getContentResolver();
@@ -50,6 +59,37 @@ public class PedoDAO {
         return historyList;
     }
 
+    public int getWeekCount() {
+        int weekCount = 0;
+        long range1 = 0;
+        long range2 = 0;
+        helper = new PedoSQLiteOpenHelper(PedometerApplication.contextWrapper.getApplicationContext());
+        db = helper.getWritableDatabase();
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+            Date date1 = sdf.parse(getWeek()[0] + " 00:00:01");
+            Date date2 = sdf.parse(getWeek()[1] + " 23:59:59");
+            range1 = date1.getTime();
+            range2 = date2.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        LogTest.i("범위 확인", getWeek()[0] + " 00:00:01");
+        LogTest.i("범위 확인", getWeek()[1] + " 23:59:59");
+        Cursor cur = db.rawQuery("select * from pedometer where date between " + range1 + " and " + range2, null);
+        while (cur.moveToNext()) {
+            int columnIndex = cur.getColumnIndex(PedoSQLiteOpenHelper.PEDOMETER_COUNT);
+            weekCount += cur.getInt(columnIndex);
+            columnIndex = cur.getColumnIndex(PedoSQLiteOpenHelper.TIME);
+            Log.i("between-날짜 확인", "" + DateFormat.format(
+                    TimeFormatter.HISTORY_DATE_FORMAT,
+                    cur.getLong(columnIndex)));
+        }
+
+        return weekCount;
+    }
+
     private List<Pedometer> cursor2HistoryList(Cursor cursor) {
         List<Pedometer> historyList = new ArrayList<Pedometer>();
 
@@ -76,6 +116,18 @@ public class PedoDAO {
         return historyList;
     }
 
+    private String[] getWeek() {
+        String[] getWeekArray = new String[2];
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.setFirstDayOfWeek(Calendar.SUNDAY);
+        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+        cal.add(Calendar.DAY_OF_MONTH, (-(dayOfWeek - 1)));
+        getWeekArray[0] = sdf.format(cal.getTime());
+        cal.add(Calendar.DAY_OF_MONTH, 6);
+        getWeekArray[1] = sdf.format(cal.getTime());
+        return getWeekArray;
+    }
 
 
 }

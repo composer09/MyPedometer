@@ -1,4 +1,4 @@
-package kr.co.composer.pedometer.viewpager.adapter;
+package kr.co.composer.pedometer.activity.viewpager.adapter;
 
 /**
  * Created by composer on 2015-07-16.

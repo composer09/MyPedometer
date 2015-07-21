@@ -14,6 +14,7 @@ import java.util.List;
 import kr.co.composer.pedometer.R;
 import kr.co.composer.pedometer.bo.pedometer.PedoHistoryBO;
 import kr.co.composer.pedometer.bo.pedometer.Pedometer;
+import kr.co.composer.pedometer.listener.HistoryClickListener;
 
 
 /**
@@ -47,6 +48,7 @@ public class HistoryFragment extends Fragment{
         HistoryAdapter historyAdapter = new HistoryAdapter(getActivity(), R.layout.location_history_item, arrayList);
         listView.setDivider(null);
         listView.setAdapter(historyAdapter);
+        listView.setOnItemClickListener(new HistoryClickListener(getActivity()));
         return view;
     }
 }
