@@ -49,13 +49,14 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private LayoutInflater inflater;
-
     private CharSequence mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         mTitle = getString(R.string.main_fragment);
         fManager = getSupportFragmentManager();

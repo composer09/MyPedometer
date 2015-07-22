@@ -1,6 +1,6 @@
 package kr.co.composer.pedometer.bo.pedometer;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import kr.co.composer.pedometer.dao.pedometer.PedoDAO;
 
@@ -23,11 +23,20 @@ public class PedoHistoryBO {
         pedoDAO.insert(pedometer);
     }
 
-    public List<Pedometer> getPedometerList(){
+    public ArrayList<Pedometer> getPedometerList(){
         return pedoDAO.getPedometerList();
     }
 
     public int getWeekCount(){
         return pedoDAO.getWeekCount();
     }
+
+    public boolean getTodayCheck(){
+        return pedoDAO.getTodayCheck();
+    }
+
+    public int getTodayCount(){
+        return pedoDAO.getTodayCount();
+    }
+
 }

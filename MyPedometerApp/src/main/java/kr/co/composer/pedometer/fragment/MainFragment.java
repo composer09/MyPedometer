@@ -24,15 +24,14 @@ import de.greenrobot.event.EventBus;
 import kr.co.composer.mylocation.aidl.ICountService;
 import kr.co.composer.mylocation.aidl.ICountServiceCallback;
 import kr.co.composer.pedometer.R;
+import kr.co.composer.pedometer.activity.viewpager.adapter.MyPagerAdapter;
+import kr.co.composer.pedometer.activity.viewpager.adapter.TextChangedEvent;
 import kr.co.composer.pedometer.bo.pedometer.PedoHistoryBO;
 import kr.co.composer.pedometer.bo.pedometer.Pedometer;
 import kr.co.composer.pedometer.location.bo.LocationManagerInitializer;
 import kr.co.composer.pedometer.service.StepService;
 import kr.co.composer.pedometer.sharedpref.ConfigPreferenceManager;
 import kr.co.composer.pedometer.util.GPSUtil;
-import kr.co.composer.pedometer.activity.viewpager.adapter.MyPagerAdapter;
-import kr.co.composer.pedometer.activity.viewpager.adapter.TextChangedEvent;
-import kr.co.composer.pedometer.activity.viewpager.adapter.WeekChangedEvent;
 
 public class MainFragment extends Fragment {
 	private ConfigPreferenceManager configPref = null;
@@ -58,17 +57,17 @@ public class MainFragment extends Fragment {
 		configPref = ConfigPreferenceManager.getInstance();
 		pedometer = new Pedometer();
 		pedoHistoryBO = new PedoHistoryBO();
-		WeekChangedEvent changedEvent= new WeekChangedEvent(true);
 
 		powerManager = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
 		wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MainFragment");
 		locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 		if (stepServiceIntent == null) {
 			Bundle extras = new Bundle();
-			extras.putInt("int", 0);
+			extras.putInt("int", currentCount);
 			stepServiceIntent = new Intent(getActivity(), StepService.class);
 			stepServiceIntent.putExtras(extras);
 		}
+
 	}
 
 
@@ -101,7 +100,6 @@ public class MainFragment extends Fragment {
 				text.setText("Count = " + currentCount);
 				EventBus bus = EventBus.getDefault();
 				bus.post(new TextChangedEvent(currentCount));
-				bus.post(new WeekChangedEvent(true));
 			}
 		};
 
@@ -142,7 +140,7 @@ public class MainFragment extends Fragment {
 		getActivity().unbindService(mConnection);
 		mBinder = null;
 		getActivity().stopService(stepServiceIntent);
-		text.setText(R.string.count_text);
+//		text.setText(R.string.count_text);
 		button.setText(R.string.play_button);
 		pedometer.setPedometerCount(currentCount);
 		pedometer.setTime(System.currentTimeMillis());
@@ -187,5 +185,16 @@ public class MainFragment extends Fragment {
 		}
 	};
 
+	private void initDataCheck(){
+			pedoHistoryBO = new PedoHistoryBO();
+			pedometer = new Pedometer();
+			if(pedoHistoryBO.getTodayCheck()){
+				pedometer.setPedometerCount(0);
+				pedometer.setTime(System.currentTimeMillis());
+				pedoHistoryBO.insert(pedometer);
+			}else {
+				currentCount = pedoHistoryBO.getTodayCount();
+			}
+	}
 
 }

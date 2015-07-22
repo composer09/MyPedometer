@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import de.greenrobot.event.EventBus;
 import kr.co.composer.pedometer.R;
-import kr.co.composer.pedometer.activity.viewpager.adapter.WeekChangedEvent;
+import kr.co.composer.pedometer.activity.viewpager.adapter.TextChangedEvent;
 import kr.co.composer.pedometer.bo.pedometer.PedoHistoryBO;
 
 
@@ -36,11 +36,8 @@ public class Page2Activity extends Fragment {
         return layout;
     }
 
-    public void onEvent(WeekChangedEvent weekChange) {
-        if(weekChange.event){
-            weekCount ++;
-        }
-        textView.setText(String.valueOf(weekCount));
+    public void onEvent(TextChangedEvent event) {
+        textView.setText(String.valueOf(weekCount + event.newText));
     }
 
 }
