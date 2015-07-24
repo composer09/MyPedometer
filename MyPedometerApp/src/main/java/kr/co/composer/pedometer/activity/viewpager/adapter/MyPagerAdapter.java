@@ -61,7 +61,6 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
     }
 
 
-    
     @Override
     public float getPageWidth(int position) {
         return 0.8f;
