@@ -3,29 +3,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150sp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/step_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/count_text"
-            android:textSize="50sp" />
-
         <Button
             android:id="@+id/test_fragment_btn"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/play_button"/>
-    </LinearLayout>
+            android:text="@string/play_button"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
+        android:layout_margin="7sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

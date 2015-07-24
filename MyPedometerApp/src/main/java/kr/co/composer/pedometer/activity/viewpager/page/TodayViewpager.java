@@ -30,7 +30,7 @@ public class TodayViewpager extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RelativeLayout layout = (RelativeLayout)inflater.inflate(R.layout.viewpager_page1, container, false);
-		textView = (TextView)layout.findViewById(R.id.text01);
+		textView = (TextView)layout.findViewById(R.id.todayCountText);
 		textView.setText(todayCount+"");
 		return layout;
 	}

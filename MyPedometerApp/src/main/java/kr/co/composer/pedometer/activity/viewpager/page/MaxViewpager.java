@@ -26,7 +26,7 @@ public class MaxViewpager extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.viewpager_page3, container, false);
-        textView = (TextView) layout.findViewById(R.id.text03);
+        textView = (TextView) layout.findViewById(R.id.maxCountText);
         textView.setText(maxCount + "");
         return layout;
     }

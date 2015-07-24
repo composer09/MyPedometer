@@ -2,13 +2,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/page2_fragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#33cc00">
 
     <TextView
-        android:id="@+id/text02"
+        android:id="@+id/weekTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="55sp"
-        android:text="0"/>
+        android:layout_above="@+id/weekCountText"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="25dp"
+        android:layout_toLeftOf="@+id/weekCountText"
+        android:layout_toStartOf="@+id/weekCountText"
+        android:text="Week"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/weekCountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="0"
+        android:textSize="55sp" />
 
 </RelativeLayout>

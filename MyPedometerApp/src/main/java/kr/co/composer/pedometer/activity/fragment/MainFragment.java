@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import de.greenrobot.event.EventBus;
 import kr.co.composer.mylocation.aidl.ICountService;
@@ -26,6 +25,7 @@ import kr.co.composer.mylocation.aidl.ICountServiceCallback;
 import kr.co.composer.pedometer.R;
 import kr.co.composer.pedometer.activity.viewpager.adapter.MyPagerAdapter;
 import kr.co.composer.pedometer.activity.viewpager.adapter.TextChangedEvent;
+import kr.co.composer.pedometer.activity.viewpager.adapter.ZoomOutPageTransformer;
 import kr.co.composer.pedometer.bo.pedometer.PedoHistoryBO;
 import kr.co.composer.pedometer.bo.pedometer.Pedometer;
 import kr.co.composer.pedometer.service.StepService;
@@ -36,7 +36,6 @@ public class MainFragment extends Fragment {
     private View view;
     private ViewPager mViewPager;
     private MyPagerAdapter mPagerAdapter;
-    private TextView text;
     private Button button;
     private ICountService mBinder = null;
     private Intent stepServiceIntent = null;
@@ -54,10 +53,12 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         configPref = ConfigPreferenceManager.getInstance();
         bus = EventBus.getDefault();
+        pedoHistoryBO = new PedoHistoryBO();
+        pedometer = new Pedometer();
         powerManager = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MainFragment");
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        initDataCheck();
+        todayDataCheck();
 
         //강제 insert
 //		try {
@@ -81,9 +82,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, container, false);
         mViewPager = (ViewPager) view.findViewById(R.id.pager);
-        text = (TextView) view.findViewById(R.id.step_text);
         button = (Button) view.findViewById(R.id.test_fragment_btn);
-        text.setText("Count = " + currentCount);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,8 +97,11 @@ public class MainFragment extends Fragment {
         });
 
         mPagerAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), getActivity());
+//        mViewPager.setPageTransformer(false, new DepthPageTransformer());
+        mViewPager.setPageTransformer(false, new ZoomOutPageTransformer());
         mViewPager.setAdapter(mPagerAdapter);
-
+//        mViewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -9);
+//        mViewPager.setOffscreenPageLimit(3);
         return view;
     }
 
@@ -142,8 +144,10 @@ public class MainFragment extends Fragment {
         button.setText(R.string.play_button);
         pedometer.setPedometerCount(currentCount);
         pedometer.setTime(System.currentTimeMillis());
+        if(!pedoHistoryBO.getTodayCheck()){
+            pedoHistoryBO.insert(pedometer);
+        }
         pedoHistoryBO.update(pedometer);
-        initDataCheck();
     }
 
 
@@ -166,7 +170,6 @@ public class MainFragment extends Fragment {
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             currentCount = msg.arg1;
-            text.setText("Count = " + currentCount);
             bus.post(new TextChangedEvent(currentCount));
         }
     };
@@ -192,9 +195,7 @@ public class MainFragment extends Fragment {
         }
     };
 
-    private void initDataCheck() {
-        pedoHistoryBO = new PedoHistoryBO();
-        pedometer = new Pedometer();
+    private void todayDataCheck() {
         if (!pedoHistoryBO.getTodayCheck()) {
             pedometer.setPedometerCount(0);
             pedometer.setTime(System.currentTimeMillis());

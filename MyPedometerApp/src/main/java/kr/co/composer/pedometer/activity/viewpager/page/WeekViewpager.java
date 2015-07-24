@@ -32,7 +32,7 @@ public class WeekViewpager extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.viewpager_page2, container, false);
-        textView = (TextView) layout.findViewById(R.id.text02);
+        textView = (TextView) layout.findViewById(R.id.weekCountText);
         textView.setText(String.valueOf(weekCount));
         return layout;
     }
