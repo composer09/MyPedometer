@@ -53,8 +53,6 @@ public class StepService extends Service implements StepListener {
     private static NotificationCompat.Builder notification = null;
     private static Intent passedIntent = null;
     private static List<ICountServiceCallback> mCallbacks = new ArrayList<ICountServiceCallback>();
-    ;
-
     private static int mSteps = 0;
     private static boolean running = false;
 
@@ -92,9 +90,22 @@ public class StepService extends Service implements StepListener {
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        logger.info("onStartCommand");
+        passedIntent = intent;
+        Bundle extras = passedIntent.getExtras();
+        if (extras != null) {
+            NOTIFY = extras.getInt("int");
+            mSteps = NOTIFY;
+        }
+
+        // Work around a bug where notif number has to be > 0
+        updateNotification((mSteps > 0) ? mSteps : 0);
+        startForegroundCompat(NOTIFY, notification);
+        return START_STICKY;
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -107,21 +118,6 @@ public class StepService extends Service implements StepListener {
         sensorManager.unregisterListener(stepDetector);
 
         stopForegroundCompat(NOTIFY);
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        logger.info("onStartCommand");
-        passedIntent = intent;
-        Bundle extras = passedIntent.getExtras();
-        if (extras != null) {
-            NOTIFY = extras.getInt("int");
-        }
-
-        // Work around a bug where notif number has to be > 0
-        updateNotification((mSteps > 0) ? mSteps : 0);
-        startForegroundCompat(NOTIFY, notification);
-        return START_STICKY;
     }
 
     /**
@@ -185,9 +181,9 @@ public class StepService extends Service implements StepListener {
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        notification.setContentText("Total steps: " + steps);
+        notification.setContentText("Today steps: " + steps);
         notification.setWhen(System.currentTimeMillis());
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         notification.setContentIntent(pendingIntent);
         notificatioManager.notify(NOTIFY, notification.build());
         updating.set(false);

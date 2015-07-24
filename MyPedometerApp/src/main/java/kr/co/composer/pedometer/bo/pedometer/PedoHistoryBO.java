@@ -10,33 +10,41 @@ import kr.co.composer.pedometer.dao.pedometer.PedoDAO;
 public class PedoHistoryBO {
     PedoDAO pedoDAO;
 
-    public PedoHistoryBO(){
+    public PedoHistoryBO() {
         pedoDAO = new PedoDAO();
         init();
     }
 
-    public void init(){
+    public void init() {
         pedoDAO.init();
     }
 
-    public void insert(Pedometer pedometer){
+    public void insert(Pedometer pedometer) {
         pedoDAO.insert(pedometer);
     }
 
-    public ArrayList<Pedometer> getPedometerList(){
+    public void update(Pedometer pedometer) {
+        pedoDAO.update(pedometer);
+    }
+
+    public ArrayList<Pedometer> getPedometerList() {
         return pedoDAO.getPedometerList();
     }
 
-    public int getWeekCount(){
+    public int getWeekCount() {
         return pedoDAO.getWeekCount();
     }
 
-    public boolean getTodayCheck(){
+    public boolean getTodayCheck() {
         return pedoDAO.getTodayCheck();
     }
 
-    public int getTodayCount(){
+    public int getTodayCount() {
         return pedoDAO.getTodayCount();
+    }
+
+    public int getMaxCount() {
+        return pedoDAO.getMaxCount();
     }
 
 }

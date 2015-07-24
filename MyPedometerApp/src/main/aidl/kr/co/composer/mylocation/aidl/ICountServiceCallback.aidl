@@ -1,5 +1,5 @@
 package kr.co.composer.mylocation.aidl;
 
 interface ICountServiceCallback{
-void stepsChanged(int value);
+    oneway void stepsChanged(int value);
 }

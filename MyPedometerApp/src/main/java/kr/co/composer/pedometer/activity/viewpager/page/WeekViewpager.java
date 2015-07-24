@@ -14,18 +14,19 @@ import kr.co.composer.pedometer.activity.viewpager.adapter.TextChangedEvent;
 import kr.co.composer.pedometer.bo.pedometer.PedoHistoryBO;
 
 
-public class Page2Activity extends Fragment {
+public class WeekViewpager extends Fragment {
     private TextView textView;
-    private EventBus eventBus = EventBus.getDefault();
     private int weekCount;
+    private int count;
     private PedoHistoryBO pedoHistoryBO;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        eventBus.register(this);
+        EventBus.getDefault().register(this);
         pedoHistoryBO = new PedoHistoryBO();
         weekCount = pedoHistoryBO.getWeekCount();
+        count = weekCount- pedoHistoryBO.getTodayCount();
     }
 
     @Override
@@ -37,7 +38,7 @@ public class Page2Activity extends Fragment {
     }
 
     public void onEvent(TextChangedEvent event) {
-        textView.setText(String.valueOf(weekCount + event.newText));
+        textView.setText((count + event.newText) + "");
     }
 
 }

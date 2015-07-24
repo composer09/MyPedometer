@@ -11,26 +11,31 @@ import android.widget.TextView;
 import de.greenrobot.event.EventBus;
 import kr.co.composer.pedometer.R;
 import kr.co.composer.pedometer.activity.viewpager.adapter.TextChangedEvent;
+import kr.co.composer.pedometer.bo.pedometer.PedoHistoryBO;
 
 
-public class Page1Activity extends Fragment {
+public class TodayViewpager extends Fragment {
 	TextView textView;
-	EventBus eventBus = EventBus.getDefault();
-	
+	int todayCount;
+	PedoHistoryBO pedoHistoryBO;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		eventBus.register(this);
+		EventBus.getDefault().register(this);
+		pedoHistoryBO = new PedoHistoryBO();
+		todayCount = pedoHistoryBO.getTodayCount();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RelativeLayout layout = (RelativeLayout)inflater.inflate(R.layout.viewpager_page1, container, false);
 		textView = (TextView)layout.findViewById(R.id.text01);
+		textView.setText(todayCount+"");
 		return layout;
 	}
 
 	public void onEvent(TextChangedEvent event) {
-		textView.setText(String.valueOf(event.newText));
+		textView.setText(event.newText+"");
 	}
 }

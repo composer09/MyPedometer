@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import kr.co.composer.pedometer.activity.viewpager.page.Page1Activity;
-import kr.co.composer.pedometer.activity.viewpager.page.Page2Activity;
-import kr.co.composer.pedometer.activity.viewpager.page.Page3Activity;
+import kr.co.composer.pedometer.activity.viewpager.page.TodayViewpager;
+import kr.co.composer.pedometer.activity.viewpager.page.WeekViewpager;
+import kr.co.composer.pedometer.activity.viewpager.page.MaxViewpager;
 
 public class MyPagerAdapter extends FragmentStatePagerAdapter {
 	private LayoutInflater layoutInflater;
@@ -31,11 +31,11 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
 	public Fragment getItem(int position) {
 		switch (position) {
 		case 0:
-			return new Page1Activity();
+			return new TodayViewpager();
 		case 1:
-			return new Page2Activity();
+			return new WeekViewpager();
 		case 2:
-			return new Page3Activity();
+			return new MaxViewpager();
 		default:
 			return null;
 		}
@@ -59,6 +59,7 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
     public void destroyItem(ViewGroup collection, int position, Object view) {
         ((ViewPager)collection).removeView((View)view);
     }
+
 
     
     @Override
