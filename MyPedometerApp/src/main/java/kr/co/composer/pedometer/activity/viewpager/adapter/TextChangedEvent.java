@@ -5,16 +5,28 @@ package kr.co.composer.pedometer.activity.viewpager.adapter;
  */
 public class TextChangedEvent {
     public int newText;
+    public int maxText;
 
-    public TextChangedEvent(int newText) {
+    public TextChangedEvent() {
+    }
+
+    //setter
+    public void setText(int newText) {
         this.newText = newText;
     }
 
-    public void setText(int text) {
-        this.newText = text;
+    public void setMaxText(int maxText) {
+        this.maxText = maxText;
     }
 
-    public int getText() {
-        return newText;
+
+    //getter
+
+    public int getText(){
+        return this.newText;
+    }
+
+    public int getMaxText() {
+        return this.maxText;
     }
 }

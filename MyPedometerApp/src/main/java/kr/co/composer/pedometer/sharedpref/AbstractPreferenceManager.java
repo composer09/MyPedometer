@@ -35,7 +35,7 @@ public class AbstractPreferenceManager {
 		}
 	}
 
-	public boolean setLongValue(String prefKey, Long value) {
+	public boolean setLongValue(String prefKey, long value) {
 		if (mPreference != null) {
 			SharedPreferences.Editor editor = mPreference.edit();
 			editor.putLong(prefKey, value);
@@ -54,9 +54,8 @@ public class AbstractPreferenceManager {
 			return false;
 		}
 	}
-	
-	
-	
+
+
 	// get메소드
 
 	public int getIntValue(String prefKey, int value) {

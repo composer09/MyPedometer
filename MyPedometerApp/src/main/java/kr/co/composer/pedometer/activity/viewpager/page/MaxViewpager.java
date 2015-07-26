@@ -8,19 +8,24 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import de.greenrobot.event.EventBus;
 import kr.co.composer.pedometer.R;
+import kr.co.composer.pedometer.activity.viewpager.adapter.TextChangedEvent;
 import kr.co.composer.pedometer.bo.pedometer.PedoHistoryBO;
 
 public class MaxViewpager extends Fragment {
-    private TextView textView;
-    private PedoHistoryBO pedoHistoryBO;
-    private int maxCount;
+    TextView textView;
+    int maxCount;
+    int count;
+    PedoHistoryBO pedoHistoryBO;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         pedoHistoryBO = new PedoHistoryBO();
         maxCount = pedoHistoryBO.getMaxCount();
+//        count = maxCount- pedoHistoryBO.getTodayCount();
     }
 
     @Override
@@ -29,5 +34,11 @@ public class MaxViewpager extends Fragment {
         textView = (TextView) layout.findViewById(R.id.maxCountText);
         textView.setText(maxCount + "");
         return layout;
+    }
+
+    public void onEvent(TextChangedEvent event) {
+        if(event.maxText <= event.newText){
+            textView.setText(event.newText+"");
+        }
     }
 }

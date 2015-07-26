@@ -30,9 +30,11 @@ import kr.co.composer.pedometer.bo.pedometer.PedoHistoryBO;
 import kr.co.composer.pedometer.bo.pedometer.Pedometer;
 import kr.co.composer.pedometer.service.StepService;
 import kr.co.composer.pedometer.sharedpref.ConfigPreferenceManager;
+import kr.co.composer.pedometer.sharedpref.PedoPreferenceManager;
 
 public class MainFragment extends Fragment {
     private ConfigPreferenceManager configPref = null;
+    private PedoPreferenceManager pedoPref = null;
     private View view;
     private ViewPager mViewPager;
     private MyPagerAdapter mPagerAdapter;
@@ -47,33 +49,40 @@ public class MainFragment extends Fragment {
     private Pedometer pedometer;
     private PedoHistoryBO pedoHistoryBO;
     private EventBus bus;
+    private TextChangedEvent textChangedEvent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         configPref = ConfigPreferenceManager.getInstance();
+        pedoPref = PedoPreferenceManager.getInstance();
         bus = EventBus.getDefault();
         pedoHistoryBO = new PedoHistoryBO();
         pedometer = new Pedometer();
+        textChangedEvent = new TextChangedEvent();
         powerManager = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MainFragment");
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        mPagerAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), getActivity());
         todayDataCheck();
 
-        //강제 insert
+//        강제 insert
+
 //		try {
 //			pedoHistoryBO = new PedoHistoryBO();
 //			pedometer = new Pedometer();
 //			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 //			Date date1 = null;
-//			date1 = sdf2.parse("2015-07-23 10:00:00");
+//			date1 = sdf2.parse("2015-07-27 10:00:00");
 //			long range1 = date1.getTime();
-//			pedometer.setPedometerCount(20000);
+//			pedometer.setPedometerCount(30);
 //			pedometer.setTime(range1);
 //			pedoHistoryBO.insert(pedometer);
 //		} catch (ParseException e) {
 //			e.printStackTrace();
-//		}
+//		} // 강제 insert 끝
+
+
 
 
     }
@@ -96,12 +105,9 @@ public class MainFragment extends Fragment {
             }
         });
 
-        mPagerAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), getActivity());
 //        mViewPager.setPageTransformer(false, new DepthPageTransformer());
         mViewPager.setPageTransformer(false, new ZoomOutPageTransformer());
         mViewPager.setAdapter(mPagerAdapter);
-//        mViewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -9);
-//        mViewPager.setOffscreenPageLimit(3);
         return view;
     }
 
@@ -124,6 +130,7 @@ public class MainFragment extends Fragment {
 //		}else{
 //			GPSUtil.getGpsAlertDialog(getActivity()).create().show();
 //		}
+        pedoPref.setCurrentTime(System.currentTimeMillis());
         intentStart();
         getActivity().startService(stepServiceIntent);
         getActivity().bindService(stepServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
@@ -143,11 +150,9 @@ public class MainFragment extends Fragment {
         getActivity().stopService(stepServiceIntent);
         button.setText(R.string.play_button);
         pedometer.setPedometerCount(currentCount);
-        pedometer.setTime(System.currentTimeMillis());
-        if(!pedoHistoryBO.getTodayCheck()){
-            pedoHistoryBO.insert(pedometer);
-        }
+        pedometer.setTime(pedoPref.getCurrentTime());
         pedoHistoryBO.update(pedometer);
+        todayDataCheck();
     }
 
 
@@ -170,7 +175,9 @@ public class MainFragment extends Fragment {
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             currentCount = msg.arg1;
-            bus.post(new TextChangedEvent(currentCount));
+            textChangedEvent.setText(currentCount);
+            textChangedEvent.setMaxText(pedoHistoryBO.getMaxCount());
+            bus.post(textChangedEvent);
         }
     };
 
@@ -200,6 +207,8 @@ public class MainFragment extends Fragment {
             pedometer.setPedometerCount(0);
             pedometer.setTime(System.currentTimeMillis());
             pedoHistoryBO.insert(pedometer);
+            currentCount = 0;
+            mPagerAdapter.notifyDataSetChanged();
         } else {
             currentCount = pedoHistoryBO.getTodayCount();
         }

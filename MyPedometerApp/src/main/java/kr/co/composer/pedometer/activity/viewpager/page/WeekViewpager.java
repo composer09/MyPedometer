@@ -26,7 +26,7 @@ public class WeekViewpager extends Fragment {
         EventBus.getDefault().register(this);
         pedoHistoryBO = new PedoHistoryBO();
         weekCount = pedoHistoryBO.getWeekCount();
-        count = weekCount- pedoHistoryBO.getTodayCount();
+        count = weekCount - pedoHistoryBO.getTodayCount();
     }
 
     @Override

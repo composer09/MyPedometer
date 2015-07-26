@@ -1,7 +1,7 @@
 package kr.co.composer.pedometer.sharedpref;
 
 public class ConfigPreferenceManager extends AbstractPreferenceManager {
-    private static ConfigPreferenceManager mSelfInstance = null;
+    private static ConfigPreferenceManager configInstance = null;
     public static final int DEFAULT_INDEX = 4;
     public static final int DEFAULT_VALUE = 85;
     public static final String SENSITIVITY_INDEX = "sensitivityIndex";
@@ -9,10 +9,10 @@ public class ConfigPreferenceManager extends AbstractPreferenceManager {
 
 
     public static synchronized ConfigPreferenceManager getInstance() {
-        if (mSelfInstance == null) {
-            mSelfInstance = new ConfigPreferenceManager();
+        if (configInstance == null) {
+            configInstance = new ConfigPreferenceManager();
         }
-        return mSelfInstance;
+        return configInstance;
     }
 
     //setter
