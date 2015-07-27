@@ -20,6 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import de.greenrobot.event.EventBus;
 import kr.co.composer.mylocation.aidl.ICountService;
 import kr.co.composer.mylocation.aidl.ICountServiceCallback;
@@ -66,26 +70,9 @@ public class MainFragment extends Fragment {
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MainFragment");
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         mPagerAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), getActivity());
+        //강제 insert
+//        forcedInsert();
         todayDataCheck();
-
-//        강제 insert
-
-//		try {
-//			pedoHistoryBO = new PedoHistoryBO();
-//			pedometer = new Pedometer();
-//			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-//			Date date1 = null;
-//			date1 = sdf2.parse("2015-07-27 10:00:00");
-//			long range1 = date1.getTime();
-//			pedometer.setPedometerCount(30);
-//			pedometer.setTime(range1);
-//			pedoHistoryBO.insert(pedometer);
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		} // 강제 insert 끝
-
-
-
 
     }
 
@@ -224,4 +211,24 @@ public class MainFragment extends Fragment {
         stepServiceIntent = new Intent(getActivity(), StepService.class);
         stepServiceIntent.putExtras(extras);
     }
+
+    //강제 insert
+    private void forcedInsert() {
+        try {
+            pedoHistoryBO = new PedoHistoryBO();
+            pedometer = new Pedometer();
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+            Date date1 = null;
+            date1 = sdf2.parse("2015-07-27 10:00:00");
+            long range1 = date1.getTime();
+            pedometer.setPedometerCount(30);
+            pedometer.setDate(DateFormat.format(
+                    TimeFormatter.SQL_DATE_FORMAT, date1).toString());
+            pedoHistoryBO.insert(pedometer);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } // 강제 insert 끝
+
+    }
+
 }
