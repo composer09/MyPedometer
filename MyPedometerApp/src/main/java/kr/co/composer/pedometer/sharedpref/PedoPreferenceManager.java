@@ -15,12 +15,12 @@ public class PedoPreferenceManager extends AbstractPreferenceManager {
     }
 
     //setter
-    public void setCurrentTime(long time) {
-        setLongValue(CURRENT_TIME, time);
+    public void setCurrentTime(String date) {
+        setStringValue(CURRENT_TIME, date);
     }
 
     //getter
-    public long getCurrentTime(){
-        return getLongValue(CURRENT_TIME, 0L);
+    public String getCurrentTime(){
+        return getStringValue(CURRENT_TIME, "");
     }
 }

@@ -4,13 +4,10 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.text.format.DateFormat;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import kr.co.composer.pedometer.R;
 import kr.co.composer.pedometer.application.PedometerApplication;
@@ -24,7 +21,7 @@ import kr.co.composer.pedometer.format.TimeFormatter;
 public class PedoDAO {
     private static final String TABLE_NAME = PedoSQLiteOpenHelper.TABLE_NAME;
     private static final String ROW_ID = PedoSQLiteOpenHelper.ROW_ID;
-    private static final String TIME = PedoSQLiteOpenHelper.TIME;
+    private static final String DATE = PedoSQLiteOpenHelper.DATE;
     private static final String PEDOMETER_COUNT = PedoSQLiteOpenHelper.PEDOMETER_COUNT;
 
     private ContentResolver contentResolver;
@@ -38,37 +35,26 @@ public class PedoDAO {
 
     public void insert(Pedometer pedometer) {
         ContentValues contVal = new ContentValues();
-        contVal.put(PedoSQLiteOpenHelper.TIME, pedometer.getTime());
-        contVal.put(PedoSQLiteOpenHelper.PEDOMETER_COUNT, pedometer.getPedometerCount());
+        contVal.put(DATE, pedometer.getDate());
+        contVal.put(PEDOMETER_COUNT, pedometer.getPedometerCount());
         contentResolver.insert(ContentProviderUri.pedometer(getUriAuthority()), contVal);
     }
 
     public void update(Pedometer pedometer) {
         int rowID = 0;
         ContentValues contVal = new ContentValues();
-        contVal.put(PedoSQLiteOpenHelper.TIME, pedometer.getTime());
+        contVal.put(PedoSQLiteOpenHelper.DATE, pedometer.getDate());
         contVal.put(PedoSQLiteOpenHelper.PEDOMETER_COUNT, pedometer.getPedometerCount());
-        long range1 = 0;
-        long range2 = 0;
-
         helper = new PedoSQLiteOpenHelper(PedometerApplication.contextWrapper.getApplicationContext());
         db = helper.getWritableDatabase();
 
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DAY_OF_MONTH, 0);
-            today = sdf.format(cal.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat(TimeFormatter.BETWEEN_FORMAT);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, 0);
+        today = sdf.format(cal.getTime());
 
-            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-            Date date1 = sdf2.parse(today + " 00:00:01");
-            Date date2 = sdf2.parse(today + " 23:59:59");
-            range1 = date1.getTime();
-            range2 = date2.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Cursor cursor = db.rawQuery("select * from pedometer where date between " + range1 + " and " + range2, null);
+        Cursor cursor = db.rawQuery("select * from pedometer where date between \"" + today + " 00:00:01\" and \""
+                + today + " 23:59:59\"", null);
         while (cursor.moveToNext()) {
             int columnIndex = cursor.getColumnIndex(ROW_ID);
             rowID = cursor.getInt(columnIndex);
@@ -93,27 +79,16 @@ public class PedoDAO {
     }
 
     public boolean getTodayCheck() {
-        long range1 = 0;
-        long range2 = 0;
-
         helper = new PedoSQLiteOpenHelper(PedometerApplication.contextWrapper.getApplicationContext());
         db = helper.getWritableDatabase();
 
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DAY_OF_MONTH, 0);
-            today = sdf.format(cal.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat(TimeFormatter.BETWEEN_FORMAT);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, 0);
+        today = sdf.format(cal.getTime());
 
-            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-            Date date1 = sdf2.parse(today + " 00:00:01");
-            Date date2 = sdf2.parse(today + " 23:59:59");
-            range1 = date1.getTime();
-            range2 = date2.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Cursor cursor = db.rawQuery("select * from pedometer where date between " + range1 + " and " + range2, null);
+        Cursor cursor = db.rawQuery("select * from pedometer where date between \"" + today + " 00:00:01\" and \""
+                + today + " 23:59:59\"", null);
         if (cursor.getCount() != 0) {
             cursor.close();
             return true;
@@ -123,30 +98,19 @@ public class PedoDAO {
     }
 
     public int getTodayCount() {
-        long range1 = 0;
-        long range2 = 0;
         int todayCount = 0;
 
         helper = new PedoSQLiteOpenHelper(PedometerApplication.contextWrapper.getApplicationContext());
         db = helper.getWritableDatabase();
 
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DAY_OF_MONTH, 0);
-            today = sdf.format(cal.getTime());
-
-            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-            Date date1 = sdf2.parse(today + " 00:00:01");
-            Date date2 = sdf2.parse(today + " 23:59:59");
-            range1 = date1.getTime();
-            range2 = date2.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Cursor cursor = db.rawQuery("select * from pedometer where date between " + range1 + " and " + range2, null);
+        SimpleDateFormat sdf = new SimpleDateFormat(TimeFormatter.BETWEEN_FORMAT);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, 0);
+        today = sdf.format(cal.getTime());
+        Cursor cursor = db.rawQuery("select * from pedometer where date between \"" + today + " 00:00:01\" and \""
+                + today + " 23:59:59\"", null);
         while (cursor.moveToNext()) {
-            int columnIndex = cursor.getColumnIndex(PedoSQLiteOpenHelper.PEDOMETER_COUNT);
+            int columnIndex = cursor.getColumnIndex(PEDOMETER_COUNT);
             todayCount += cursor.getInt(columnIndex);
         }
         cursor.close();
@@ -156,21 +120,11 @@ public class PedoDAO {
 
     public int getWeekCount() {
         int weekCount = 0;
-        long range1 = 0;
-        long range2 = 0;
         helper = new PedoSQLiteOpenHelper(PedometerApplication.contextWrapper.getApplicationContext());
         db = helper.getWritableDatabase();
 
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-            Date date1 = sdf.parse(getWeek()[0] + " 00:00:01");
-            Date date2 = sdf.parse(getWeek()[1] + " 23:59:59");
-            range1 = date1.getTime();
-            range2 = date2.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Cursor cursor = db.rawQuery("select * from pedometer where date between " + range1 + " and " + range2, null);
+        Cursor cursor = db.rawQuery("select * from pedometer where date between \"" + getWeek()[0] + " 00:00:01\" and \""
+                + getWeek()[1] + " 23:59:59\"", null);
         while (cursor.moveToNext()) {
             int columnIndex = cursor.getColumnIndex(PEDOMETER_COUNT);
             weekCount += cursor.getInt(columnIndex);
@@ -202,13 +156,11 @@ public class PedoDAO {
                 int columnIndex = cursor.getColumnIndex(ROW_ID);
                 pedometer.setRowId(cursor.getInt(columnIndex));
 
+                columnIndex = cursor.getColumnIndex(DATE);
+                pedometer.setDate(cursor.getString(columnIndex));
+
                 columnIndex = cursor.getColumnIndex(PEDOMETER_COUNT);
                 pedometer.setPedometerCount(cursor.getInt(columnIndex));
-
-                columnIndex = cursor.getColumnIndex(TIME);
-                pedometer.setTimeToString(DateFormat.format(
-                        TimeFormatter.HISTORY_DATE_FORMAT,
-                        cursor.getLong(columnIndex)).toString());
 
                 historyList.add(pedometer);
             }// while
@@ -220,7 +172,7 @@ public class PedoDAO {
 
     private String[] getWeek() {
         String[] getWeekArray = new String[2];
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(TimeFormatter.BETWEEN_FORMAT);
         Calendar cal = Calendar.getInstance();
         cal.setFirstDayOfWeek(Calendar.SUNDAY);
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);

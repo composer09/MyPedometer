@@ -11,10 +11,10 @@ import android.util.Log;
  */
 public class PedoSQLiteOpenHelper extends SQLiteOpenHelper {
     public static final String DATABASE_FILE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/myPedometer/pedometer.db";
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 1;
     public static final String TABLE_NAME = "pedometer";
     public static final String ROW_ID = "rowId";
-    public static final String TIME = "date";
+    public static final String DATE = "date";
     public static final String PEDOMETER_COUNT = "pedometerCount";
 
     public PedoSQLiteOpenHelper(Context context) {
@@ -25,7 +25,7 @@ public class PedoSQLiteOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String sql = "create table " + TABLE_NAME + " ("
                 + ROW_ID + " integer primary key autoincrement, "
-                + TIME + " integer, "
+                + DATE + " text, "
                 + PEDOMETER_COUNT + " integer "
                 +");";
         Log.i("데이터베이스 테이블생성", sql);

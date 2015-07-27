@@ -13,6 +13,7 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import kr.co.composer.pedometer.activity.viewpager.adapter.TextChangedEvent;
 import kr.co.composer.pedometer.activity.viewpager.pageTransformer.ZoomOutPageTransformer;
 import kr.co.composer.pedometer.bo.pedometer.PedoHistoryBO;
 import kr.co.composer.pedometer.bo.pedometer.Pedometer;
+import kr.co.composer.pedometer.format.TimeFormatter;
 import kr.co.composer.pedometer.service.StepService;
 import kr.co.composer.pedometer.sharedpref.ConfigPreferenceManager;
 import kr.co.composer.pedometer.sharedpref.PedoPreferenceManager;
@@ -130,7 +132,8 @@ public class MainFragment extends Fragment {
 //		}else{
 //			GPSUtil.getGpsAlertDialog(getActivity()).create().show();
 //		}
-        pedoPref.setCurrentTime(System.currentTimeMillis());
+        pedoPref.setCurrentTime(DateFormat.format(
+                TimeFormatter.SQL_DATE_FORMAT, System.currentTimeMillis()).toString());
         intentStart();
         getActivity().startService(stepServiceIntent);
         getActivity().bindService(stepServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
@@ -150,7 +153,7 @@ public class MainFragment extends Fragment {
         getActivity().stopService(stepServiceIntent);
         button.setText(R.string.play_button);
         pedometer.setPedometerCount(currentCount);
-        pedometer.setTime(pedoPref.getCurrentTime());
+        pedometer.setDate(pedoPref.getCurrentTime());
         pedoHistoryBO.update(pedometer);
         todayDataCheck();
     }
@@ -205,7 +208,8 @@ public class MainFragment extends Fragment {
     private void todayDataCheck() {
         if (!pedoHistoryBO.getTodayCheck()) {
             pedometer.setPedometerCount(0);
-            pedometer.setTime(System.currentTimeMillis());
+            pedometer.setDate(DateFormat.format(
+                    TimeFormatter.SQL_DATE_FORMAT, System.currentTimeMillis()).toString());
             pedoHistoryBO.insert(pedometer);
             currentCount = 0;
             mPagerAdapter.notifyDataSetChanged();
