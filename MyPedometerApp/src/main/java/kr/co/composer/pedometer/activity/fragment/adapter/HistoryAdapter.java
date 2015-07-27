@@ -1,4 +1,4 @@
-package kr.co.composer.pedometer.location.layout;
+package kr.co.composer.pedometer.activity.fragment.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

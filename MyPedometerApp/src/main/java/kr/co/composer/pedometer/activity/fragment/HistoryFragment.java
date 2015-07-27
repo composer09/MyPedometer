@@ -1,4 +1,4 @@
-package kr.co.composer.pedometer.location.layout;
+package kr.co.composer.pedometer.activity.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +11,7 @@ import android.widget.ListView;
 import kr.co.composer.pedometer.R;
 import kr.co.composer.pedometer.bo.pedometer.PedoHistoryBO;
 import kr.co.composer.pedometer.listener.HistoryClickListener;
+import kr.co.composer.pedometer.activity.fragment.adapter.HistoryAdapter;
 
 
 /**

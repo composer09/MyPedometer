@@ -1,4 +1,4 @@
-package kr.co.composer.pedometer.activity.viewpager.adapter;
+package kr.co.composer.pedometer.activity.viewpager.pageTransformer;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;

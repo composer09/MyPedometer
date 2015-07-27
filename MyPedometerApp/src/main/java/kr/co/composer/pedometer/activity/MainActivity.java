@@ -31,7 +31,7 @@ import android.widget.ListView;
 import kr.co.composer.pedometer.R;
 import kr.co.composer.pedometer.activity.fragment.ConfigFragment;
 import kr.co.composer.pedometer.activity.fragment.MainFragment;
-import kr.co.composer.pedometer.location.layout.HistoryFragment;
+import kr.co.composer.pedometer.activity.fragment.HistoryFragment;
 import kr.co.composer.pedometer.location.layout.LocationFragment;
 
 /**

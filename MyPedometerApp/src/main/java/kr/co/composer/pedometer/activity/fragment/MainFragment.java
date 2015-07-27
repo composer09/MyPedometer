@@ -25,7 +25,7 @@ import kr.co.composer.mylocation.aidl.ICountServiceCallback;
 import kr.co.composer.pedometer.R;
 import kr.co.composer.pedometer.activity.viewpager.adapter.MyPagerAdapter;
 import kr.co.composer.pedometer.activity.viewpager.adapter.TextChangedEvent;
-import kr.co.composer.pedometer.activity.viewpager.adapter.ZoomOutPageTransformer;
+import kr.co.composer.pedometer.activity.viewpager.pageTransformer.ZoomOutPageTransformer;
 import kr.co.composer.pedometer.bo.pedometer.PedoHistoryBO;
 import kr.co.composer.pedometer.bo.pedometer.Pedometer;
 import kr.co.composer.pedometer.service.StepService;
