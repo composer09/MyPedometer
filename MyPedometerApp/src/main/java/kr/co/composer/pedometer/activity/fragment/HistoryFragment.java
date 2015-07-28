@@ -6,20 +6,25 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.ExpandableListView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import kr.co.composer.pedometer.R;
+import kr.co.composer.pedometer.activity.fragment.adapter.HistoryAdapter;
 import kr.co.composer.pedometer.bo.pedometer.PedoHistoryBO;
 import kr.co.composer.pedometer.listener.HistoryClickListener;
-import kr.co.composer.pedometer.activity.fragment.adapter.HistoryAdapter;
 
 
 /**
  * Created by composer on 2015-07-08.
  */
 public class HistoryFragment extends Fragment{
-    ListView listView = null;
+    ExpandableListView listView = null;
     PedoHistoryBO pedoHistoryBO;
+    private ArrayList<String> arrayGroup = new ArrayList<String>();
+    private HashMap<String, ArrayList<String>> arrayChild = new HashMap<String, ArrayList<String>>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,8 +36,8 @@ public class HistoryFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history,container,false);
-        listView = (ListView)view.findViewById(R.id.location_history_listview);
-            HistoryAdapter historyAdapter = new HistoryAdapter(getActivity(), R.layout.location_history_item, pedoHistoryBO.getPedometerList());
+        listView = (ExpandableListView)view.findViewById(R.id.location_history_listview);
+            HistoryAdapter historyAdapter = new HistoryAdapter(getActivity(), pedoHistoryBO.getGroup(), pedoHistoryBO.getChildList());
         listView.setDivider(null);
         listView.setAdapter(historyAdapter);
         listView.setOnItemClickListener(new HistoryClickListener(getActivity()));

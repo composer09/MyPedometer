@@ -73,7 +73,6 @@ public class MainFragment extends Fragment {
         //강제 insert
 //        forcedInsert();
         todayDataCheck();
-
     }
 
     @Override
@@ -219,7 +218,7 @@ public class MainFragment extends Fragment {
             pedometer = new Pedometer();
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
             Date date1 = null;
-            date1 = sdf2.parse("2015-07-27 10:00:00");
+            date1 = sdf2.parse("2015-06-27 10:00:00");
             long range1 = date1.getTime();
             pedometer.setPedometerCount(30);
             pedometer.setDate(DateFormat.format(

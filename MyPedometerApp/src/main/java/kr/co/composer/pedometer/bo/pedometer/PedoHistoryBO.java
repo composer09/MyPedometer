@@ -1,6 +1,7 @@
 package kr.co.composer.pedometer.bo.pedometer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import kr.co.composer.pedometer.dao.pedometer.PedoDAO;
 
@@ -29,6 +30,14 @@ public class PedoHistoryBO {
 
     public ArrayList<Pedometer> getPedometerList() {
         return pedoDAO.getPedometerList();
+    }
+
+    public ArrayList<String> getGroup() {
+        return pedoDAO.getGroup();
+    }
+
+    public HashMap<String, ArrayList<Pedometer>> getChildList() {
+        return pedoDAO.getChildList();
     }
 
     public int getWeekCount() {
