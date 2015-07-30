@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import kr.co.composer.pedometer.activity.viewpager.page.TodayViewpager;
 import kr.co.composer.pedometer.activity.viewpager.page.WeekViewpager;
-import kr.co.composer.pedometer.activity.viewpager.page.MaxViewpager;
+import kr.co.composer.pedometer.activity.viewpager.page.RecordViewpager;
 
 public class MyPagerAdapter extends FragmentStatePagerAdapter {
 	private LayoutInflater layoutInflater;
@@ -35,7 +35,7 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
 		case 1:
 			return new WeekViewpager();
 		case 2:
-			return new MaxViewpager();
+			return new RecordViewpager();
 		default:
 			return null;
 		}

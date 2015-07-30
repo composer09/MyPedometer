@@ -38,8 +38,8 @@ public class HistoryFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_history,container,false);
         listView = (ExpandableListView)view.findViewById(R.id.location_history_listview);
             HistoryAdapter historyAdapter = new HistoryAdapter(getActivity(), pedoHistoryBO.getGroup(), pedoHistoryBO.getChildList());
-        listView.setDivider(null);
         listView.setAdapter(historyAdapter);
+        listView.expandGroup(0);
         listView.setOnItemClickListener(new HistoryClickListener(getActivity()));
         return view;
     }

@@ -15,6 +15,7 @@ import kr.co.composer.pedometer.application.PedometerApplication;
 import kr.co.composer.pedometer.bo.pedometer.Pedometer;
 import kr.co.composer.pedometer.dao.ContentProviderUri;
 import kr.co.composer.pedometer.format.TimeFormatter;
+import kr.co.composer.pedometer.log.LogTest;
 
 /**
  * Created by composer on 2015-07-09.
@@ -63,27 +64,34 @@ public class PedoDAO {
 
 
     public ArrayList<String> getGroup() {
+        int groupCount = 0;
         ArrayList<String> groupArray = new ArrayList<String>();
         helper = new PedoSQLiteOpenHelper(PedometerApplication.contextWrapper.getApplicationContext());
         db = helper.getWritableDatabase();
         Cursor cursor = db.rawQuery("select distinct strftime('%Y-%m', date) FROM pedometer order by date desc", null);
+//        for(int i = 0; i < cursor.getCount(); i++){
+//            groupArray.add(cursor.getString(i));
+//        }
         while (cursor.moveToNext()) {
             groupArray.add(cursor.getString(0));
+            LogTest.i("cursor!!!", cursor.getString(0));
+            LogTest.i("get Group cursorCount", groupArray.get(groupCount));
+            groupCount++;
         }
         return groupArray;
     }
 
-    public HashMap<String, ArrayList<Pedometer>> getChildList(){
+    public HashMap<String, ArrayList<Pedometer>> getChildList() {
         helper = new PedoSQLiteOpenHelper(PedometerApplication.contextWrapper.getApplicationContext());
         db = helper.getWritableDatabase();
-        ArrayList<Pedometer> arrayPedometer = null;
         HashMap<String, ArrayList<Pedometer>> arrayChild = new HashMap<String, ArrayList<Pedometer>>();
+        ArrayList<Pedometer> arrayPedometer = null;
         ArrayList<String> groupArray = getGroup();
-        for(int i =0; i < groupArray.size(); i++) {
-            Cursor cursor = db.rawQuery("select * from pedometer where date like \"%"+groupArray.get(i)+"%\"", null);
+        for (int i = 0; i < groupArray.size(); i++) {
+            Cursor cursor = db.rawQuery("select * from pedometer where date like \"%" + groupArray.get(i) + "%\" order by date desc", null);
+            arrayPedometer = new ArrayList<Pedometer>();
             while (cursor.moveToNext()) {
                 Pedometer pedometer = new Pedometer();
-                arrayPedometer = new ArrayList<Pedometer>();
                 int columnIndex = cursor.getColumnIndex(ROW_ID);
                 pedometer.setRowId(cursor.getInt(columnIndex));
 
@@ -93,8 +101,9 @@ public class PedoDAO {
                 columnIndex = cursor.getColumnIndex(PEDOMETER_COUNT);
                 pedometer.setPedometerCount(cursor.getInt(columnIndex));
                 arrayPedometer.add(pedometer);
+                arrayChild.put(groupArray.get(i), arrayPedometer);
+                LogTest.i("arrayChild", arrayChild.get(groupArray.get(i)));
             }
-                arrayChild.put(groupArray.get(i),arrayPedometer);
         }
         return arrayChild;
     }

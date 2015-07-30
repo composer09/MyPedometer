@@ -29,21 +29,6 @@ public class HistoryAdapter extends BaseExpandableListAdapter {
         this.arrayChild = arrayChild;
     }
 
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        if (convertView == null) {
-//            convertView = inflater.inflate(layout, parent, false);
-//        }
-//        TextView textWalk = (TextView) convertView.findViewById(R.id.pedometer_walk);
-//        textWalk.setText(String.valueOf(arraySrc.get(position).getPedometerCount()));
-//
-//        TextView textTime = (TextView) convertView.findViewById(R.id.pedometer_date);
-//        textTime.setText(arraySrc.get(position).getDate());
-//
-//        convertView.setId(arraySrc.get(position).getRowId());
-//        return convertView;
-//    }
-
     @Override
     public int getGroupCount() {
         return arrayGroup.size();

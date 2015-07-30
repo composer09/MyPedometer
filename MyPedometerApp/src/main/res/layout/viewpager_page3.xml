@@ -6,17 +6,17 @@
     android:background="#0099cc">
 
     <TextView
-        android:id="@+id/maxTextView"
+        android:id="@+id/recordTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/maxCountText"
-        android:layout_alignLeft="@+id/maxCountText"
+        android:layout_above="@+id/recordCountText"
+        android:layout_alignLeft="@+id/recordCountText"
         android:layout_marginBottom="5dp"
-        android:text="Max"
+        android:text="Record"
         android:textSize="15dp" />
 
     <TextView
-        android:id="@+id/maxCountText"
+        android:id="@+id/recordCountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
