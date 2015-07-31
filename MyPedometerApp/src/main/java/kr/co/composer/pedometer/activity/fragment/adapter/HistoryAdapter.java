@@ -66,29 +66,37 @@ public class HistoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        String groupName = arrayGroup.get(groupPosition);
+        PedometerViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = (RelativeLayout) inflater.inflate(R.layout.history_group, null);
+            holder = new PedometerViewHolder();
+            holder.textGroup = (TextView) convertView.findViewById(R.id.textGroup);
+            convertView.setTag(holder);
+        }else{
+            holder = (PedometerViewHolder)convertView.getTag();
         }
-        TextView textGroup = (TextView) convertView.findViewById(R.id.textGroup);
-        textGroup.setText(groupName);
+        holder.textGroup.setText(arrayGroup.get(groupPosition));
         return convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        String date = arrayChild.get(arrayGroup.get(groupPosition)).get(childPosition).getDate();
-        int count = arrayChild.get(arrayGroup.get(groupPosition)).get(childPosition).getPedometerCount();
+        PedometerViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = (RelativeLayout) inflater.inflate(R.layout.history_child_item, null);
+            holder = new PedometerViewHolder();
+            holder.textTime = (TextView) convertView.findViewById(R.id.pedometer_date);
+            holder.textWalk = (TextView) convertView.findViewById(R.id.pedometer_walk);
+            convertView.setTag(holder);
+        }else{
+            holder = (PedometerViewHolder)convertView.getTag();
         }
-        TextView textTime = (TextView) convertView.findViewById(R.id.pedometer_date);
-        textTime.setText(date);
-
-        TextView textWalk = (TextView) convertView.findViewById(R.id.pedometer_walk);
-        textWalk.setText(String.valueOf(count));
+        String date = arrayChild.get(arrayGroup.get(groupPosition)).get(childPosition).getDate();
+        int count = arrayChild.get(arrayGroup.get(groupPosition)).get(childPosition).getPedometerCount();
+        holder.textTime.setText(date);
+        holder.textWalk.setText(String.valueOf(count));
 
         convertView.setId(arrayChild.get(arrayGroup.get(groupPosition)).get(childPosition).getRowId());
         return convertView;
