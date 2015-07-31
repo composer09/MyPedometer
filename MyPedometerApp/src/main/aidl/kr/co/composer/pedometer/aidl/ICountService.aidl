@@ -1,6 +1,6 @@
-package kr.co.composer.mylocation.aidl;
+package kr.co.composer.pedometer.aidl;
 
-import kr.co.composer.mylocation.aidl.ICountServiceCallback;
+import kr.co.composer.pedometer.aidl.ICountServiceCallback;
 
 interface ICountService
 {

@@ -37,7 +37,7 @@ import kr.co.composer.pedometer.location.layout.LocationFragment;
 /**
  * Created by composer on 2015-06-13.
  */
-public class MainActivity extends ActionBarActivity implements OnItemClickListener {
+public class StartActivity extends ActionBarActivity implements OnItemClickListener {
     private final static String MAIN_FRAGMENT = "mainfragment";
     private final static String HISTORY_FRAGMENT = "historyFragment";
     private final static String SERVICE_NAME = "kr.co.composer.pedometer.service.StepService";

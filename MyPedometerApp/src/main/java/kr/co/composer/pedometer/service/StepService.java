@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
 
-import kr.co.composer.mylocation.aidl.ICountService;
-import kr.co.composer.mylocation.aidl.ICountServiceCallback;
+import kr.co.composer.pedometer.aidl.ICountService;
+import kr.co.composer.pedometer.aidl.ICountServiceCallback;
 import kr.co.composer.pedometer.R;
-import kr.co.composer.pedometer.activity.MainActivity;
+import kr.co.composer.pedometer.activity.StartActivity;
 
 
 /**
@@ -178,7 +178,7 @@ public class StepService extends Service implements StepListener {
         if (!updating.compareAndSet(false, true)) {
             return;
         }
-        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+        Intent intent = new Intent(getBaseContext(), StartActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         notification.setContentText("Today steps: " + steps);

@@ -25,8 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.greenrobot.event.EventBus;
-import kr.co.composer.mylocation.aidl.ICountService;
-import kr.co.composer.mylocation.aidl.ICountServiceCallback;
+import kr.co.composer.pedometer.aidl.ICountService;
+import kr.co.composer.pedometer.aidl.ICountServiceCallback;
 import kr.co.composer.pedometer.R;
 import kr.co.composer.pedometer.activity.viewpager.adapter.MyPagerAdapter;
 import kr.co.composer.pedometer.activity.viewpager.adapter.TextChangedEvent;

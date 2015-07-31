@@ -1,4 +1,4 @@
-package kr.co.composer.mylocation;
+package kr.co.composer.pedometer;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
