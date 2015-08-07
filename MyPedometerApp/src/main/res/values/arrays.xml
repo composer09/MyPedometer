@@ -2,7 +2,6 @@
 <resources>
     <string-array name="nav_items">
         <item>MainFragment</item>
-        <item>Location</item>
         <item>History</item>
         <item>Config</item>
     </string-array>

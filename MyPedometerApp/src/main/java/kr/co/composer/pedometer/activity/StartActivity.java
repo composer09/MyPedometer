@@ -32,7 +32,6 @@ import kr.co.composer.pedometer.R;
 import kr.co.composer.pedometer.activity.fragment.ConfigFragment;
 import kr.co.composer.pedometer.activity.fragment.MainFragment;
 import kr.co.composer.pedometer.activity.fragment.HistoryFragment;
-import kr.co.composer.pedometer.location.layout.LocationFragment;
 
 /**
  * Created by composer on 2015-06-13.
@@ -55,8 +54,6 @@ public class StartActivity extends ActionBarActivity implements OnItemClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         mTitle = getString(R.string.main_fragment);
         fManager = getSupportFragmentManager();
@@ -82,13 +79,7 @@ public class StartActivity extends ActionBarActivity implements OnItemClickListe
                 restoreActionBar();
                 fragtrans.replace(R.id.container, new MainFragment(), MAIN_FRAGMENT);
             }
-        } else if (position == 1) {
-            if (isServiceRunning(SERVICE_NAME)) {
-                runningAlert();
-            } else {
-                fragtrans.replace(R.id.container, new LocationFragment(), "googleMap");
-            }
-        } else if (position == 2) {
+        }else if (position == 1) {
             if (isServiceRunning(SERVICE_NAME)) {
                 runningAlert();
             } else {
@@ -96,7 +87,7 @@ public class StartActivity extends ActionBarActivity implements OnItemClickListe
                 restoreActionBar();
                 fragtrans.replace(R.id.container, new HistoryFragment(), "HISTORY_FRAGMENT");
             }
-        } else if (position == 3) {
+        } else if (position == 2) {
             if (isServiceRunning(SERVICE_NAME)) {
                 runningAlert();
             } else {
